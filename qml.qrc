@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>MainView.qml</file>
+        <file>WeatherLoader.qml</file>
+        <file>WeatherView.qml</file>
+        <file>window.qml</file>
+    </qresource>
+</RCC>
