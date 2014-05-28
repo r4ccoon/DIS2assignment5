@@ -43,6 +43,7 @@ Rectangle
     WeatherView {
         id: weatherView
         flickrLoader: flickrloader
+        weatherLoader: loader
         anchors.fill: parent
         color: "#00000000"
     }

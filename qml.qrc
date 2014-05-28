@@ -10,5 +10,6 @@
         <file>humidity_ico.png</file>
         <file>compass_ico.png</file>
         <file>defaultbg.jpg</file>
+        <file>edit_ico.png</file>
     </qresource>
 </RCC>

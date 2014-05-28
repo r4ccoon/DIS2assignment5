@@ -31,13 +31,38 @@ Rectangle {
     property string weatherIcon: "01d"
     property string flickrUrl: "qrc:///images/defaultbg.jpg"
     property FlickrLoader flickrLoader
+    property WeatherLoader weatherLoader
 
-    // Uncomment this for animation when the temperature changes:
     Behavior on currentTemperature {
         PropertyAnimation {
             duration: 500
         }
     }
+
+    Behavior on cloudLevel {
+        PropertyAnimation {
+            duration: 500
+        }
+    }
+
+    Behavior on minimumTemperature {
+        PropertyAnimation {
+            duration: 500
+        }
+    }
+
+    Behavior on maximumTemperature {
+        PropertyAnimation {
+            duration: 500
+        }
+    }
+
+    Behavior on humidity {
+        PropertyAnimation {
+            duration: 500
+        }
+    }
+
 
     //Go crazy!
     Flow {
@@ -49,6 +74,7 @@ Rectangle {
         height: 400
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
+
 
         Text {
             id: labelCurrentTemp
@@ -225,12 +251,46 @@ Rectangle {
                     z: 2
                 }
             }
+
+
+        }
+
+        TextInput {
+            id: textEditCity
+            width: 385
+            height: 89
+            color: "#d4d4d4"
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: 120
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignTop
+            font.family: "Tahoma"
+            font.pixelSize: 80
+            z: 2
+            text: qsTr("")
+            visible: false
+
+            Keys.onPressed: {
+                if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return){
+                    city = textEditCity.text;
+                    textEditCity.visible = false;
+                    textEditCity.focus = false;
+                    labelCity.visible = true;
+                    labelCity.text = city;
+                    editButton.visible = true;
+                    console.log("bebeebe");
+
+                    weatherLoader.city = city;
+                }
+            }
+
         }
 
         Text {
             id: labelCity
             x: 170
-            width: 385
+            width: 368
             height: 89
             color: "#d4d4d4"
             text: city
@@ -243,10 +303,47 @@ Rectangle {
             style: Text.Raised
             font.pixelSize: 80
             z: 2
+
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    textEditCity.visible = true;
+                    textEditCity.focus = true;
+                    console.log("kakakak");
+                    labelCity.visible = false;
+                    editButton.visible = false;
+                }
+            }
+
+            Image {
+                id: editButton
+                x: 71
+                y: 77
+                width: 32
+                height: 32
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.top: parent.top
+                anchors.topMargin: 0
+                source: "qrc:///images/edit_ico.png"
+
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: {
+                        textEditCity.visible = true;
+                        textEditCity.focus = true;
+                        console.log("fafafa");
+                        labelCity.visible = false;
+                        editButton.visible = false;
+                    }
+                }
+            }
         }
+
     }
 
     // to swap background every 5 seconds
+
     Timer {
         interval: 5000; running: true; repeat: true;
         onTriggered: {
@@ -268,18 +365,6 @@ Rectangle {
         horizontalAlignment: Image.AlignLeft
         source: flickrUrl
 
-//        onStatusChanged: {
-//            if (background.status === Image.Ready){
-//                console.log('Loaded')
-//                background.opacity = 1.0;
-//            }
-
-//            if (background.status === Image.Ready){
-//                console.log('loading')
-//                background.opacity = 0.0;
-//            }
-//        }
-
         Behavior on opacity {
             NumberAnimation {
                 duration: 600
@@ -292,4 +377,5 @@ Rectangle {
             }
         }
     }
+
 }
