@@ -282,6 +282,7 @@ Rectangle {
                     console.log("bebeebe");
 
                     weatherLoader.city = city;
+                    flickrLoader.city = city;
                 }
             }
 
