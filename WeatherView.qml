@@ -63,7 +63,6 @@ Rectangle {
         }
     }
 
-
     //Go crazy!
     Flow {
         id: flow1
@@ -74,7 +73,6 @@ Rectangle {
         height: 400
         anchors.horizontalCenterOffset: 0
         anchors.horizontalCenter: parent.horizontalCenter
-
 
         Text {
             id: labelCurrentTemp
@@ -251,8 +249,6 @@ Rectangle {
                     z: 2
                 }
             }
-
-
         }
 
         TextInput {
@@ -272,20 +268,18 @@ Rectangle {
             visible: false
 
             Keys.onPressed: {
-                if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return){
-                    city = textEditCity.text;
-                    textEditCity.visible = false;
-                    textEditCity.focus = false;
-                    labelCity.visible = true;
-                    labelCity.text = city;
-                    editButton.visible = true;
-                    console.log("bebeebe");
+                if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
+                    city = textEditCity.text
+                    textEditCity.visible = false
+                    textEditCity.focus = false
+                    labelCity.visible = true
+                    labelCity.text = city
+                    editButton.visible = true
 
-                    weatherLoader.city = city;
-                    flickrLoader.city = city;
+                    weatherLoader.city = city
+                    flickrLoader.city = city
                 }
             }
-
         }
 
         Text {
@@ -305,14 +299,14 @@ Rectangle {
             font.pixelSize: 80
             z: 2
 
-            MouseArea{
+            MouseArea {
                 anchors.fill: parent
                 onClicked: {
-                    textEditCity.visible = true;
-                    textEditCity.focus = true;
-                    console.log("kakakak");
-                    labelCity.visible = false;
-                    editButton.visible = false;
+                    textEditCity.visible = true
+                    textEditCity.focus = true
+
+                    labelCity.visible = false
+                    editButton.visible = false
                 }
             }
 
@@ -328,29 +322,29 @@ Rectangle {
                 anchors.topMargin: 0
                 source: "qrc:///images/edit_ico.png"
 
-                MouseArea{
+                MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        textEditCity.visible = true;
-                        textEditCity.focus = true;
-                        console.log("fafafa");
-                        labelCity.visible = false;
-                        editButton.visible = false;
+                        textEditCity.visible = true
+                        textEditCity.focus = true
+                        console.log("fafafa")
+                        labelCity.visible = false
+                        editButton.visible = false
                     }
                 }
             }
         }
-
     }
 
     // to swap background every 5 seconds
-
     Timer {
-        interval: 5000; running: true; repeat: true;
+        interval: 5000
+        running: true
+        repeat: true
         onTriggered: {
             console.log("reGenerateRandom")
-            background.opacity = 0.0;
-            flickrLoader.reGenerateRandom();
+            background.opacity = 0.0
+            flickrLoader.reGenerateRandom()
         }
     }
 
@@ -371,12 +365,11 @@ Rectangle {
                 duration: 600
 
                 onRunningChanged: {
-                    if(!running){
-                        background.opacity = 1;
+                    if (!running) {
+                        background.opacity = 1
                     }
                 }
             }
         }
     }
-
 }
