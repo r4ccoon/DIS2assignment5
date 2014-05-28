@@ -246,25 +246,15 @@ Rectangle {
         }
     }
 
+    // to swap background every 5 seconds
     Timer {
-        interval: 3000; running: true; repeat: true;
+        interval: 5000; running: true; repeat: true;
         onTriggered: {
             console.log("reGenerateRandom")
-            flickrLoader.reGenerateRandom();
             background.opacity = 0.0;
-            /*
-            if(){
-                background.opacity = 1;
-                console.log("i want to fade in");
-            }
-            else if(background.opacity == 1.0){
-                background.opacity = 0;
-                console.log("i want to fade out");
-            }
-            */
+            flickrLoader.reGenerateRandom();
         }
     }
-
 
     Image {
         id: background
@@ -278,38 +268,24 @@ Rectangle {
         horizontalAlignment: Image.AlignLeft
         source: flickrUrl
 
-        states:[
-            State {
-                name: 'loaded';
-                when: image.status === Image.Ready
-                changes: {
+//        onStatusChanged: {
+//            if (background.status === Image.Ready){
+//                console.log('Loaded')
+//                background.opacity = 1.0;
+//            }
 
-                }
-                PropertyChanges {
-                    target: background;
-                    opacity: 0
-                }
-            }
-        ]
+//            if (background.status === Image.Ready){
+//                console.log('loading')
+//                background.opacity = 0.0;
+//            }
+//        }
 
         Behavior on opacity {
             NumberAnimation {
                 duration: 600
-                onStarted:{
-                    console.log("opa got changed")
-                }
 
                 onRunningChanged: {
                     if(!running){
-                        console.log("i d k")
-                        background.opacity = 1;
-                    }
-                }
-
-                onStopped:{
-                    console.log("Animation stopped")
-                    if(background.opacity == 0){
-                        console.log("set opa back to 1")
                         background.opacity = 1;
                     }
                 }
