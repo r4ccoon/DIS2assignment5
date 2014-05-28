@@ -1,9 +1,6 @@
 import QtQuick 2.2
 import QtQuick.XmlListModel 2.0
 
-
-//Touch at your own peril!
-
 Item {
 
     property string city: "Aachen, de"
