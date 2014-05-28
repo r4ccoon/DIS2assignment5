@@ -11,5 +11,8 @@
         <file>compass_ico.png</file>
         <file>defaultbg.jpg</file>
         <file>edit_ico.png</file>
+        <file>sun.png</file>
+        <file>sun_bg.png</file>
+        <file>sunset_bg.png</file>
     </qresource>
 </RCC>

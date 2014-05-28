@@ -127,6 +127,8 @@ Item {
             {
                 weatherView.sunset = Qt.formatDateTime(get(0).xml_sunset, "h:mm")
                 weatherView.sunrise = Qt.formatDateTime(get(0).xml_sunrise, "h:mm")
+                weatherView.sunsetRaw = get(0).xml_sunset
+                weatherView.sunriseRaw = get(0).xml_sunrise
                 weatherView.city =  get(0).xml_city
                 weatherView.country = get(0).xml_country
                 weatherView.latitude = get(0).xml_latitude

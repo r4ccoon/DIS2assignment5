@@ -3,8 +3,8 @@ import QtQuick.Controls 1.1
 
 ApplicationWindow {
     visible: true
-    width: 800
-    height: 480
+    width: 1280
+    height: 800
     title: "The weather looks so Qt!"
 
    MainView {

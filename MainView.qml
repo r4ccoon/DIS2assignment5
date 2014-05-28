@@ -1,12 +1,10 @@
 import QtQuick 2.2
 
-
-
 Rectangle
 {
     color: "#333333"
-    width: 600
-    height: 400
+    width: 1280
+    height: 800
 
     WeatherLoader {
         id: loader

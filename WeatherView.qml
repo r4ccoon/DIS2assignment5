@@ -10,6 +10,10 @@ Rectangle {
     //these will be set by the loader
     property string sunrise: "never"
     property string sunset: "never"
+    // sunrise sunset date in string but raw from the xml
+    property string sunriseRaw: ""
+    property string sunsetRaw: ""
+
     property string city: "nowhere"
     property string country: "nowhere"
     property double latitude: 0
@@ -63,7 +67,16 @@ Rectangle {
         }
     }
 
-    //Go crazy!
+    /*
+    Behavior on sunrise{
+        PropertyAnimation {
+            duration: 1
+            onRunningChanged: {
+                swapNight(sunriseRaw, sunsetRaw);
+            }
+        }
+    }*/
+
     Flow {
         id: flow1
         x: 121
@@ -336,13 +349,136 @@ Rectangle {
         }
     }
 
+    function swapNight(sr, ss){
+        var currD = new Date();
+        var unixCurrD = currD.getDate();
+
+        var sunriseD = new Date(sr);
+        var unixSunrise = sunriseD.getDate();
+
+        var sunsetD = new Date(ss);
+        var unixSunset = sunsetD.getDate();
+
+        console.log("--be1" + sunsetD )
+        console.log("--be2" + currD)
+
+        /*
+        if (currD.getDate() > sunsetD.getDate()) {
+            console.log("--at night")
+            labelSunrise.text = (new Date(ss)).toTimeString("h:mm")
+            labelSunset.text = (new Date(sr)).toTimeString("h:mm")
+        } else {
+            console.log("--at noon")
+            labelSunset.text = (new Date(ss)).toTimeString("h:mm")
+            labelSunrise.text = (new Date(sr)).toTimeString("h:mm")
+        }
+        */
+        var agl = 0.0
+
+        // at night we swap side
+        //if(unixCurrD > unixSunset){
+            agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
+        //}else{
+        //    console.log("at noon")
+        //    agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
+        //}
+
+        return agl;
+    }
+
+    Image {
+        id: sunBg
+        x: 121
+        y: 44
+        z: 2
+        width: 500
+        height: 257
+        opacity: 0.5
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        anchors.horizontalCenterOffset: 0
+        anchors.horizontalCenter: parent.horizontalCenter
+
+        source: {
+            var d = new Date()
+            var sunsetD = new Date(sunsetRaw);
+            var unixSunset = sunsetD.getDate();
+            if (d.getTime() > unixSunset) {
+                return "qrc:///images/sunset_bg.png"
+            } else {
+                return "qrc:///images/sun_bg.png"
+            }
+        }
+
+        Image {
+            id: sunRotation
+            x: -150
+            y: 0
+            width: 500
+            height: 257
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+            fillMode: Image.Stretch
+            anchors.bottom: parent.bottom
+            source: "qrc:///images/sun.png"
+
+            transform: Rotation {
+                id: sunRot
+                origin.x: 250
+                origin.y: 257
+                axis.x: 0
+                axis.y: 0
+                axis.z: 1
+                angle: swapNight(sunriseRaw, sunsetRaw) + 200
+
+                Behavior on angle {
+                    PropertyAnimation {
+                        duration: 3000
+                    }
+                }
+            }
+        }
+
+        Text {
+            id: labelSunrise
+            y: 312
+            color: "#d4d4d4"
+            text: qsTr(sunrise)
+            style: Text.Raised
+            font.bold: true
+            font.family: "Tahoma"
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            anchors.left: parent.left
+            anchors.leftMargin: 0
+            font.pixelSize: 12
+        }
+
+        Text {
+            id: labelSunset
+            x: 535
+            y: 378
+            color: "#d4d4d4"
+            text: qsTr(sunset)
+            style: Text.Raised
+            font.family: "Tahoma"
+            font.bold: true
+            anchors.right: parent.right
+            anchors.rightMargin: 0
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            font.pixelSize: 12
+        }
+    }
+
+
     // to swap background every 5 seconds
     Timer {
         interval: 5000
         running: true
         repeat: true
         onTriggered: {
-            console.log("reGenerateRandom")
+            console.log("swap background")
             background.opacity = 0.0
             flickrLoader.reGenerateRandom()
         }
