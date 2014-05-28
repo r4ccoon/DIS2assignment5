@@ -338,6 +338,22 @@ Rectangle {
         }
     }
 
+    function swapNight(sr, ss) {
+
+        var currD = new Date()
+        var unixCurrD = currD.getDate()
+
+        var sunriseD = new Date(sr)
+        var unixSunrise = sunriseD.getDate()
+
+        var sunsetD = new Date(ss)
+        var unixSunset = sunsetD.getDate()
+
+        var agl = 0.0
+        agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
+        return agl
+    }
+
     Image {
         id: sunBg
         x: 121
@@ -352,32 +368,6 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
 
         source: "qrc:///images/sunset_bg.png"
-        /* {
-            var d = new Date()
-            var sunsetD = new Date(sunsetRaw)
-            var unixSunset = sunsetD.getDate()
-            if (d.getTime() > unixSunset) {
-                return "qrc:///images/sunset_bg.png"
-            }
-
-            return "qrc:///images/sun_bg.png"
-        }*/
-
-        function swapNight(sr, ss) {
-
-            var currD = new Date()
-            var unixCurrD = currD.getDate()
-
-            var sunriseD = new Date(sr)
-            var unixSunrise = sunriseD.getDate()
-
-            var sunsetD = new Date(ss)
-            var unixSunset = sunsetD.getDate()
-
-            var agl = 0.0
-            agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
-            return agl
-        }
 
         Image {
             id: sunRotation
