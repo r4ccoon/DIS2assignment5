@@ -67,16 +67,6 @@ Rectangle {
         }
     }
 
-    /*
-    Behavior on sunrise{
-        PropertyAnimation {
-            duration: 1
-            onRunningChanged: {
-                swapNight(sunriseRaw, sunsetRaw);
-            }
-        }
-    }*/
-
     Flow {
         id: flow1
         x: 121
@@ -349,41 +339,20 @@ Rectangle {
         }
     }
 
-    function swapNight(sr, ss){
-        var currD = new Date();
-        var unixCurrD = currD.getDate();
+    function swapNight(sr, ss) {
+        var currD = new Date()
+        var unixCurrD = currD.getDate()
 
-        var sunriseD = new Date(sr);
-        var unixSunrise = sunriseD.getDate();
+        var sunriseD = new Date(sr)
+        var unixSunrise = sunriseD.getDate()
 
-        var sunsetD = new Date(ss);
-        var unixSunset = sunsetD.getDate();
+        var sunsetD = new Date(ss)
+        var unixSunset = sunsetD.getDate()
 
-        console.log("--be1" + sunsetD )
-        console.log("--be2" + currD)
-
-        /*
-        if (currD.getDate() > sunsetD.getDate()) {
-            console.log("--at night")
-            labelSunrise.text = (new Date(ss)).toTimeString("h:mm")
-            labelSunset.text = (new Date(sr)).toTimeString("h:mm")
-        } else {
-            console.log("--at noon")
-            labelSunset.text = (new Date(ss)).toTimeString("h:mm")
-            labelSunrise.text = (new Date(sr)).toTimeString("h:mm")
-        }
-        */
         var agl = 0.0
+        agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
 
-        // at night we swap side
-        //if(unixCurrD > unixSunset){
-            agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
-        //}else{
-        //    console.log("at noon")
-        //    agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
-        //}
-
-        return agl;
+        return agl
     }
 
     Image {
@@ -401,8 +370,8 @@ Rectangle {
 
         source: {
             var d = new Date()
-            var sunsetD = new Date(sunsetRaw);
-            var unixSunset = sunsetD.getDate();
+            var sunsetD = new Date(sunsetRaw)
+            var unixSunset = sunsetD.getDate()
             if (d.getTime() > unixSunset) {
                 return "qrc:///images/sunset_bg.png"
             } else {
@@ -470,7 +439,6 @@ Rectangle {
             font.pixelSize: 12
         }
     }
-
 
     // to swap background every 5 seconds
     Timer {
