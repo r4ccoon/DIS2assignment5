@@ -19,6 +19,17 @@ Rectangle
         weatherView: weatherView
     }
 
+    FlickrLoader {
+        id: flickrloader
+        anchors.rightMargin: -94
+        anchors.bottomMargin: 0
+        anchors.leftMargin: 94
+        anchors.topMargin: 0
+        anchors.fill: parent
+        city: "Aachen"
+        weatherView: weatherView
+    }
+
     Text {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter
@@ -30,9 +41,10 @@ Rectangle
     }
 
     WeatherView {
-            id: weatherView
-            anchors.fill: parent
-            color: "#00000000"
+        id: weatherView
+        flickrLoader: flickrloader
+        anchors.fill: parent
+        color: "#00000000"
     }
 
 }

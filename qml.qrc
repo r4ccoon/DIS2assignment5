@@ -4,9 +4,11 @@
         <file>WeatherLoader.qml</file>
         <file>WeatherView.qml</file>
         <file>window.qml</file>
+        <file>FlickrLoader.qml</file>
     </qresource>
     <qresource lang="english" prefix="/images">
         <file>humidity_ico.png</file>
         <file>compass_ico.png</file>
+        <file>defaultbg.jpg</file>
     </qresource>
 </RCC>

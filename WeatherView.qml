@@ -29,6 +29,8 @@ Rectangle {
     property string weatherDescription: "nothing"
     property int weatherCode: 0 //see http://bugs.openweathermap.org/projects/api/wiki/Weather_Condition_Codes
     property string weatherIcon: "01d"
+    property string flickrUrl: "qrc:///images/defaultbg.jpg"
+    property FlickrLoader flickrLoader
 
     // Uncomment this for animation when the temperature changes:
     Behavior on currentTemperature {
@@ -220,10 +222,9 @@ Rectangle {
                     font.family: "Tahoma"
                     style: Text.Outline
                     font.pixelSize: 16
-                z: 2
+                    z: 2
+                }
             }
-        }
-
         }
 
         Text {
@@ -242,17 +243,77 @@ Rectangle {
             style: Text.Raised
             font.pixelSize: 80
             z: 2
-
         }
     }
 
+    Timer {
+        interval: 3000; running: true; repeat: true;
+        onTriggered: {
+            console.log("reGenerateRandom")
+            flickrLoader.reGenerateRandom();
+            background.opacity = 0.0;
+            /*
+            if(){
+                background.opacity = 1;
+                console.log("i want to fade in");
+            }
+            else if(background.opacity == 1.0){
+                background.opacity = 0;
+                console.log("i want to fade out");
+            }
+            */
+        }
+    }
+
+
     Image {
         id: background
+        asynchronous: true
+        smooth: true
+
         anchors.fill: parent
         z: 1
-        fillMode: Image.Stretch
+        fillMode: Image.PreserveAspectCrop
         verticalAlignment: Image.AlignTop
         horizontalAlignment: Image.AlignLeft
-        source: "http://farm1.staticflickr.com/231/483342623_5a4e9bde18_b.jpg"
+        source: flickrUrl
+
+        states:[
+            State {
+                name: 'loaded';
+                when: image.status === Image.Ready
+                changes: {
+
+                }
+                PropertyChanges {
+                    target: background;
+                    opacity: 0
+                }
+            }
+        ]
+
+        Behavior on opacity {
+            NumberAnimation {
+                duration: 600
+                onStarted:{
+                    console.log("opa got changed")
+                }
+
+                onRunningChanged: {
+                    if(!running){
+                        console.log("i d k")
+                        background.opacity = 1;
+                    }
+                }
+
+                onStopped:{
+                    console.log("Animation stopped")
+                    if(background.opacity == 0){
+                        console.log("set opa back to 1")
+                        background.opacity = 1;
+                    }
+                }
+            }
+        }
     }
 }
