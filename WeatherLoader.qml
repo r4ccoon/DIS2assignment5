@@ -40,10 +40,12 @@ Item {
             name: "xml_currentTemperature"
 
         }
+
         XmlRole {
             query: "temperature/@max/number()"
             name: "xml_maximumTemperature"
         }
+
         XmlRole {
             query: "temperature/@min/number()"
             name: "xml_minimumTemperature"
@@ -83,6 +85,7 @@ Item {
             query: "wind/direction/@code/string()"
             name: "xml_windDirectionAbbreviation"
         }
+
         XmlRole {
             query: "clouds/@value/number()"
             name: "xml_cloudLevel"
@@ -97,17 +100,25 @@ Item {
             name: "xml_sunrise"
             query: "city/sun/@rise/string()"
         }
+
         XmlRole {
             name: "xml_sunset"
             query: "city/sun/@set/string()"
         }
+
         XmlRole {
             name: "xml_weatherCode"
             query: "weather/@number/number()"
         }
+
         XmlRole {
             name: "xml_weatherDescription"
             query: "weather/@value/string()"
+        }
+
+        XmlRole {
+            name: "xml_weatherIcon"
+            query: "weather/@icon/string()"
         }
 
         onStatusChanged:
@@ -134,6 +145,7 @@ Item {
                 weatherView.cloudDescription = get(0).xml_cloudDescription
                 weatherView.weatherCode = get(0).xml_weatherCode
                 weatherView.weatherDescription = get(0).xml_weatherDescription
+                weatherView.weatherIcon = get(0).xml_weatherIcon
             }
 
             if(status == XmlListModel.Error)
