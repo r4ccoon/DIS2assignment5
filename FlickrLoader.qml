@@ -1,6 +1,8 @@
 import QtQuick 2.2
 import QtQuick.XmlListModel 2.0
 
+// flickr loader to call and fetch random images related to the city, -
+// based on a randomNumber that is requested as the "page" parameter.
 Item {
 
     property string city: "Aachen"
@@ -13,6 +15,8 @@ Item {
         return Math.random () * 360;
     }
 
+    // this will be called to change the value of the random image for the background swapping function
+    // when this randomNumber is changed, than the other method who listen to this variable will act accordingly
     function reGenerateRandom(){
         randomNumber = generateRandom();
     }

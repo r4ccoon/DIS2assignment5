@@ -10,7 +10,8 @@ Rectangle {
     //these will be set by the loader
     property string sunrise: "never"
     property string sunset: "never"
-    // sunrise sunset date in string but raw from the xml
+
+    // sunrise and sunset date in string but raw from the xml
     property string sunriseRaw: ""
     property string sunsetRaw: ""
 
@@ -37,30 +38,35 @@ Rectangle {
     property FlickrLoader flickrLoader
     property WeatherLoader weatherLoader
 
+    // animate the number on change
     Behavior on currentTemperature {
         PropertyAnimation {
             duration: 500
         }
     }
 
+    // animate the number on change
     Behavior on cloudLevel {
         PropertyAnimation {
             duration: 500
         }
     }
 
+    // animate the number on change
     Behavior on minimumTemperature {
         PropertyAnimation {
             duration: 500
         }
     }
 
+    // animate the number on change
     Behavior on maximumTemperature {
         PropertyAnimation {
             duration: 500
         }
     }
 
+    // animate the number on change
     Behavior on humidity {
         PropertyAnimation {
             duration: 500
@@ -164,6 +170,7 @@ Rectangle {
                 anchors.leftMargin: -22
                 source: "qrc:///images/compass_ico.png"
 
+                // animate rotate the compass arrow based on wind direction
                 transform: Rotation {
                     id: rot
                     origin.x: 24
@@ -195,6 +202,7 @@ Rectangle {
                 }
             }
 
+            // cloud level image/icon
             Image {
                 id: imgCloudLevel
                 x: -95
@@ -254,6 +262,7 @@ Rectangle {
             }
         }
 
+        // text input to change the city.
         TextInput {
             id: textEditCity
             width: 385
@@ -270,13 +279,17 @@ Rectangle {
             text: qsTr("")
             visible: false
 
+            // change the city when the user press the "enter" key
             Keys.onPressed: {
                 if (event.key === Qt.Key_Enter || event.key === Qt.Key_Return) {
                     city = textEditCity.text
                     textEditCity.visible = false
                     textEditCity.focus = false
-                    labelCity.visible = true
+
                     labelCity.text = city
+
+                    // the current input text will be hidden, and it ll set and show the current city.
+                    labelCity.visible = true
                     editButton.visible = true
 
                     weatherLoader.city = city
@@ -313,6 +326,8 @@ Rectangle {
                 }
             }
 
+            // the edit button (wrench). when it clicked,
+            // the current city label will be hidden, and it ll show the input text.
             Image {
                 id: editButton
                 x: 71
@@ -338,19 +353,28 @@ Rectangle {
         }
     }
 
+    // find out the angle of the sun is now.
     function swapNight(sr, ss) {
 
         var currD = new Date()
-        var unixCurrD = currD.getDate()
+        var unixCurrD = currD.getTime()
 
         var sunriseD = new Date(sr)
-        var unixSunrise = sunriseD.getDate()
+        var unixSunrise = sunriseD.getTime()
 
         var sunsetD = new Date(ss)
-        var unixSunset = sunsetD.getDate()
+        var unixSunset = sunsetD.getTime()
 
         var agl = 0.0
         agl = ((unixCurrD - unixSunrise) / (unixSunset - unixSunrise)) * 360
+
+        console.log(unixCurrD)
+        console.log(unixSunrise)
+        console.log(unixSunset)
+        console.log(unixSunrise)
+
+        console.log(agl)
+
         return agl
     }
 
@@ -381,6 +405,8 @@ Rectangle {
             anchors.bottom: parent.bottom
             source: "qrc:///images/sun.png"
 
+            //
+            // rotate the arrow that pointing the sun is now
             transform: Rotation {
                 id: sunRot
                 origin.x: 250
@@ -388,11 +414,11 @@ Rectangle {
                 axis.x: 0
                 axis.y: 0
                 axis.z: 1
-                angle: swapNight(sunriseRaw, sunsetRaw) + 200
+                angle: swapNight(sunriseRaw, sunsetRaw) + 270
 
                 Behavior on angle {
                     PropertyAnimation {
-                        duration: 3000
+                        duration: 6000
                     }
                 }
             }
@@ -454,6 +480,7 @@ Rectangle {
         horizontalAlignment: Image.AlignLeft
         source: flickrUrl
 
+        // fade in and fade out the opacity for the background swapping feature
         Behavior on opacity {
             NumberAnimation {
                 duration: 600
